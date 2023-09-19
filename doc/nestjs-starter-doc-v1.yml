@@ -1,0 +1,477 @@
+openapi: 3.0.3
+info:
+  title: NestJS Starter API Docs
+  description: NestJS Starter API Docs Integrated
+  contact:
+    email: yeokgank@gmail.com
+  version: 0.0.1
+servers:
+  - url: http://localhost:3000
+    description: 로컬 서버
+tags:
+  - name: 기본(Base) API
+  - name: Postgresql 인증(Authentication) API
+  - name: Postgresql 회원(Member) API
+paths:
+  /health:
+    get:
+      tags:
+        - 기본(Base) API
+      summary: Health Check
+      description: Health Check API
+      operationId: Health
+      parameters:
+        - name: language_tag
+          in: header
+          required: false
+          example: ko
+          description: Language Tag
+          schema:
+            default: ko
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.0.1
+                    description: Version
+                  timestamp:
+                    type: number
+                    example: 1672531200
+                    description: Unix Timestamp
+                  language_tag:
+                    type: string
+                    example: ko
+                    description: Language Tag
+                  meta:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Meta
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Data
+                required:
+                  - version
+                  - timestamp
+                  - language_tag
+                  - meta
+                  - data
+        "502":
+          description: Bad Gateway
+      security:
+        - bearerAuth: []
+
+  /api/v1/auth/kakao/login:
+    post:
+      tags:
+        - Postgresql 인증(Authentication) API
+      summary: 카카오 OpenID 로그인
+      description: 카카오 OpenID 로그인 API
+      operationId: V1AuthKaKaoLogin
+      parameters:
+        - name: language_tag
+          in: header
+          required: true
+          example: ko
+          description: Language Tag
+          schema:
+            default: ko
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_token:
+                  type: string
+                  description: kakao OpenID
+                  example: '1111313223'
+              required:
+                - refreshToken
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.0.1
+                    description: Version
+                  timestamp:
+                    type: number
+                    example: 1672531200
+                    description: Unix Timestamp
+                  language_tag:
+                    type: string
+                    example: ko
+                    description: Language Tag
+                  meta:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Meta
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1001
+                        description: 사용자 식별자 정보
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.L35UGq6JFD-dATi8XrtM2nRg0Ps0GNTy5MWUz0Q5zjs
+                      refreshToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.2vUjMOm9yxID2w2nVP6isuUasLGFBSdx_AWFMk7OaXA
+                    required:
+                      - id
+                      - accessToken
+                      - refreshToken
+                required:
+                  - version
+                  - timestamp
+                  - language_tag
+                  - meta
+                  - data
+        "502":
+          description: Bad Gateway
+
+  /api/v1/auth/logout:
+    post:
+      tags:
+        - Postgresql 인증(Authentication) API
+      summary: 로그아웃
+      description: 로그아웃 API
+      operationId: V1AuthLogout
+      parameters:
+        - name: language_tag
+          in: header
+          required: true
+          example: ko
+          description: Language Tag
+          schema:
+            default: ko
+            type: string
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.0.1
+                    description: Version
+                  timestamp:
+                    type: number
+                    example: 1672531200
+                    description: Unix Timestamp
+                  language_tag:
+                    type: string
+                    example: ko
+                    description: Language Tag
+                  meta:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Meta
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1001
+                        description: 사용자 식별자 정보
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.L35UGq6JFD-dATi8XrtM2nRg0Ps0GNTy5MWUz0Q5zjs
+                      refreshToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.2vUjMOm9yxID2w2nVP6isuUasLGFBSdx_AWFMk7OaXA
+                    required:
+                      - id
+                      - accessToken
+                      - refreshToken
+                required:
+                  - version
+                  - timestamp
+                  - language_tag
+                  - meta
+                  - data
+        "502":
+          description: Bad Gateway
+      security:
+        - bearerAuth: []
+
+  /api/v1/auth/refresh-token:
+    post:
+      tags:
+        - Postgresql 인증(Authentication) API
+      summary: 리프레시 토큰
+      description: 리프레시 토큰 API
+      operationId: V1AuthRefreshToken
+      parameters:
+        - name: language_tag
+          in: header
+          required: true
+          example: ko
+          description: Language Tag
+          schema:
+            default: ko
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+                  description: refresh token
+                  example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.2vUjMOm9yxID2w2nVP6isuUasLGFBSdx_AWFMk7OaXA'
+              required:
+                - refreshToken
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.0.1
+                    description: Version
+                  timestamp:
+                    type: number
+                    example: 1672531200
+                    description: Unix Timestamp
+                  language_tag:
+                    type: string
+                    example: ko
+                    description: Language Tag
+                  meta:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Meta
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1001
+                        description: 사용자 식별자 정보
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.L35UGq6JFD-dATi8XrtM2nRg0Ps0GNTy5MWUz0Q5zjs
+                      refreshToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwiaWF0IjoxNjkxOTk2Mzg0LCJleHAiOjE2OTIwODI3ODQsImF1ZCI6IiIsImlzcyI6IiIsInN1YiI6IiJ9.2vUjMOm9yxID2w2nVP6isuUasLGFBSdx_AWFMk7OaXA
+                    required:
+                      - id
+                      - accessToken
+                      - refreshToken
+                required:
+                  - version
+                  - timestamp
+                  - language_tag
+                  - meta
+                  - data
+        "401":
+          description: Unauthorized
+
+  /api/v1/member/profile:
+    get:
+      tags:
+        - Postgresql 회원(Member) API
+      summary: 회원 정보
+      description: 회원 정보 API
+      operationId: V1MemberProfile
+      parameters:
+        - name: language_tag
+          in: header
+          required: true
+          example: ko
+          description: Language Tag
+          schema:
+            default: ko
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.0.1
+                    description: Version
+                  timestamp:
+                    type: number
+                    example: 1672531200
+                    description: Unix Timestamp
+                  language_tag:
+                    type: string
+                    example: ko
+                    description: Language Tag
+                  meta:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Meta
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1111313223
+                        description: 사용자 식별자 정보
+                      name:
+                        type: string
+                        example: KaKao_1692844783084_user
+                        description: 이름
+                      phone:
+                        type: string
+                        example: 01099991111
+                        description: 휴대폰 번호
+                      provider:
+                        type: string
+                        example: KaKao
+                        description: 로그인 연동 출처
+                      is_completed:
+                        type: boolean
+                        example: false
+                        description: 가입 최종 확인 여부
+                    required:
+                      - id
+                      - name
+                      - phone
+                      - provider
+                      - is_completed
+                required:
+                  - version
+                  - timestamp
+                  - language_tag
+                  - meta
+                  - data
+        "401":
+          description: Unauthorized
+        "502":
+          description: Bad Gateway
+      security:
+        - bearerAuth: []
+
+  "/api/v1/member/profile-image":
+    post:
+      tags:
+        - Postgresql 회원(Member) API
+      summary: 회원 프로필 이미지 등록/수정
+      description: 회원 프로필 이미지 등록/수정 API
+      operationId: V1MemberUpdateProfileImage
+      parameters:
+        - name: language_tag
+          in: header
+          required: true
+          example: ko
+          description: Language Tag
+          schema:
+            default: ko
+            type: string
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+              required:
+                - file
+      responses:
+        "201":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    example: 0.0.1
+                    description: Version
+                  timestamp:
+                    type: number
+                    example: 1672531200
+                    description: Unix Timestamp
+                  language_tag:
+                    type: string
+                    example: ko
+                    description: Language Tag
+                  meta:
+                    type: object
+                    nullable: true
+                    example: null
+                    description: Meta
+                  data:
+                    type: object
+                    description: Data
+                    properties:
+                      profile_resized_image_url:
+                        type: string
+                        example: resized_image_url
+                        description: 리사이즈 경로
+                      profile_thumbnail_image_url:
+                        type: string
+                        example: thumbnail_image_url
+                        description: 썸네일 경로
+                    required:
+                      - profile_resized_image_url
+                      - profile_thumbnail_image_url
+                required:
+                  - version
+                  - timestamp
+                  - language_tag
+                  - meta
+                  - data
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "409":
+          description: Conflict
+        "500":
+          description: Internal Server Error
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

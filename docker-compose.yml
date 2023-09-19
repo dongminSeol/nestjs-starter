@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+
+  nestjs-template-postgres-master-db:
+    image: postgres
+    container_name: nestjs-template-postgres-master-db
+    ports:
+      - 5432:5432
+    networks:
+      - nestjs-template-network
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test_1024
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8
+    volumes:
+      - pgdata-master:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+
+  nestjs-template-postgres-read-01-db:
+    image: postgres
+    container_name: nestjs-template-postgres-read-01-db
+    networks:
+      - nestjs-template-network
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test_1024
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8
+      POSTGRES_MASTER_SERVICE_HOST: nestjs-template-postgres-master-db
+      POSTGRES_MASTER_SERVICE_PORT: 5432
+    volumes:
+      - pgdata-read-01:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  nestjs-template-postgres-read-02-db:
+    image: postgres
+    container_name: nestjs-template-postgres-read-02-db
+    networks:
+      - nestjs-template-network
+    environment:
+      POSTGRES_DB: test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test_1024
+      POSTGRES_INITDB_ARGS: --encoding=UTF-8
+      POSTGRES_MASTER_SERVICE_HOST: nestjs-template-postgres-master-db
+      POSTGRES_MASTER_SERVICE_PORT: 5432
+    volumes:
+      - pgdata-read-02:/var/lib/postgresql/data
+    restart: unless-stopped
+
+
+  nestjs-template-mongo-db:
+    image: mongo:latest
+    container_name: nestjs-template-mongo-db
+    ports:
+      - 27017:27017
+    networks:
+      - nestjs-template-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test_1024
+      MONGO_INITDB_DATABASE: test
+    volumes:
+      - mongodata:/var/lib/mongodb/data
+    restart: unless-stopped
+
+  nestjs-template-redis-write-db:
+    image: redis:latest
+    container_name: nestjs-template-redis-write-db
+    ports:
+      - 6379:6379
+    networks:
+      - nestjs-template-network
+    volumes:
+      - redis-write:/var/lib/redis-write-db/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+
+  nestjs-template-redis-read-db:
+    image: redis:latest
+    container_name: nestjs-template-redis-read-db
+    ports:
+      - 6380:6379
+    networks:
+      - nestjs-template-network
+    volumes:
+      - redis-read:/var/lib/redis-read-db/data
+    command: redis-server --slaveof nestjs-template-redis-write-db 6379
+    restart: unless-stopped
+
+
+networks:
+  nestjs-template-network:
+
+volumes:
+  pgdata-master:
+  pgdata-read-01:
+  pgdata-read-02:
+  mongodata:
+  redis-write:
+  redis-read:
