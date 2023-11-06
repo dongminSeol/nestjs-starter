@@ -2,10 +2,10 @@ import { Body, Controller, Post, Req } from '@nestjs/common';
 import { SSOAuth, TokenAuth } from '../../../common/app-auth/decorator/app-auth.decorator';
 import { AppResponseSerialize } from '../../../common/app-response/decorator/app-response-serialize.decorator';
 import { AppAuthService } from '../../../common/app-auth/service/app-auth.service';
-import { AuthV1RefreshTokenRes } from './dto/auth-v1-res.dto';
+import { AuthV1RefreshTokenRes } from './dto/auth.res.dto';
 import { AppRequest } from '../../../common/app-request/interface/app-request.interface';
-import { AuthV1SendOTPCodeReq } from './dto/auth-v1.req.dto';
-import { AuthV1Service } from './auth-v1.service';
+import { AuthV1SendOTPCodeReq } from './dto/auth.req.dto';
+import { AuthService } from './auth.service';
 import { AuthTypeCode } from '../../../common/app-enum/domain/auth-type.code.enum';
 import {
   ACCESS_TOKEN,
@@ -15,10 +15,10 @@ import {
 } from '../../../common/app-auth/constant/app-auth.constant';
 
 @Controller({ path: 'auth', version: '1' })
-export class AuthV1Controller {
+export class AuthController {
   constructor(
     private readonly appAuthService: AppAuthService,
-    private readonly authV1Service: AuthV1Service
+    private readonly authV1Service: AuthService
   ) {
   }
 

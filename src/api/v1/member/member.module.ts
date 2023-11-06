@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { MemberV1RepositoryModule } from "../../../modules/entities/v1/member-v1/member-v1.repository.module";
-import { MemberV1Controller } from './member-v1.controller';
-import { MemberV1Service } from './member-v1.service';
+import { MemberV1RepositoryModule } from "../../../entities/v1/member-v1/member-v1.repository.module";
+import { MemberController } from './member.controller';
+import { MemberService } from './member.service';
 import { AwsS3Module } from '../../../modules/aws/s3/aws.s3.module';
 import { ConfigService } from '@nestjs/config';
 
@@ -17,8 +17,8 @@ import { ConfigService } from '@nestjs/config';
       })
     })
   ],
-  providers: [MemberV1Service],
-  controllers: [MemberV1Controller]
+  providers: [MemberService],
+  controllers: [MemberController]
 })
-export class MemberV1Module {
+export class MemberModule {
 }

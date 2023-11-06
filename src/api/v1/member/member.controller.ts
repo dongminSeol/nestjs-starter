@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Post, Req, UploadedFile } from '@nestjs/common';
 import { ACCESS_TOKEN } from '../../../common/app-auth/constant/app-auth.constant';
-import { MemberV1Service } from './member-v1.service';
-import { MemberV1CheckDuplicateIdRes, MemberV1ProfileRes } from './dto/member-v1.res.dto';
+import { MemberService } from './member.service';
+import { MemberV1CheckDuplicateIdRes, MemberV1ProfileRes } from './dto/member.res.dto';
 import { AppRequest } from '../../../common/app-request/interface/app-request.interface';
-import { MemberV1CheckDuplicateIdReq, MemberV1UpdateProfileReq } from './dto/member-v1.req.dto';
+import { MemberV1CheckDuplicateIdReq, MemberV1UpdateProfileReq } from './dto/member.req.dto';
 import { AppFileRequiredPipe } from '../../../common/app-file/pipe/app-file.required.pipe';
 import { AppFileTypePipe } from '../../../common/app-file/pipe/app-file.type.pipe';
 import { AppFileType } from '../../../common/app-file/type/app-file.type';
@@ -15,12 +15,12 @@ import { AwsS3Service } from '../../../modules/aws/s3/service/aws.s3.service';
 
 @Controller({ path: 'pg/member', version: '1' })
 @TokenAuth(ACCESS_TOKEN)
-export class MemberV1Controller {
+export class MemberController {
   private readonly S3_BUCKET = 'dev-first-repo';
   private readonly S3_BUCKET_PATH = 'developer';
   private readonly S3_BUCKET_URL = 'https://dev-first-repo.s3.ap-northeast-2.amazonaws.com';
 
-  constructor(private readonly memberService: MemberV1Service, private readonly s3Service: AwsS3Service) {
+  constructor(private readonly memberService: MemberService, private readonly s3Service: AwsS3Service) {
   }
 
 

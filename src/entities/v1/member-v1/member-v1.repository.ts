@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PgService } from '../../../../modules/pg/service/pg.service';
-import { PGPool } from '../../../../common/app-enum/postgresql/pg-pool.code.enum';
+import { PgService } from '../../../modules/pg/service/pg.service';
+import { PGPool } from '../../../common/app-enum/postgresql/pg-pool.code.enum';
 import { AccountEntity } from './member-v1.entity';
 
 

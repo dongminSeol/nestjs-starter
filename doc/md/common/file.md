@@ -6,7 +6,7 @@
 
 작성 예시
 ```ts
-export class MemberV1Controller {
+export class MemberController {
   constructor(private readonly s3Service: AwsS3Service) {
   }
 

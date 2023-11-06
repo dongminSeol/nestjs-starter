@@ -45,7 +45,7 @@ export const MemberDataSchema = SchemaFactory.createForClass(MemberData);
 
 ```ts
 @Injectable()
-export class MemberV1Service {
+export class MemberService {
   constructor(
     @InjectConnection(MongooseConnectionNameCode.Dev.code) private readonly connection: Connection,
     @InjectModel(MemberData.name, MongooseConnectionNameCode.Dev.code) private readonly memberDataModel: Model<MemberDataDocument>

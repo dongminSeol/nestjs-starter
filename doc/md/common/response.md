@@ -10,7 +10,7 @@
    1. 사용자 지정 응답 처리 시 `AppResponseSerialize({DTO-Class})` 데코레이터를 참조 합니다.
    2. DTO 클래스 프로퍼티 중  `@Expose()` 참조된 정보만 반환 합니다. 
    ```ts
-    // member-v1.res.dto.ts
+    // member.res.dto.ts
     export class MemberV1ProfileRes {
       @Expose()
       user_id: string;
@@ -19,11 +19,11 @@
       email: string;
     }
     
-    // member-v1.controller.ts
+    // member.controller.ts
     @Controller({ path: 'member', version: '1' })
     @TokenAuth(ACCESS_TOKEN)
-    export class MemberV1Controller {
-      constructor(private readonly memberService: MemberV1Service) {}
+    export class MemberController {
+      constructor(private readonly memberService: MemberService) {}
     
       @Get('/profile')
       @AppResponseSerialize(MemberV1ProfileRes)
