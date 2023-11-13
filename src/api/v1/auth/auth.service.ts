@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { MemberRepository } from "../../../entities/v1/member/member.repository";
+import { MemberRepository } from "../../../entities/v1/member/repositories/member.repository";
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly memberV1Repository: MemberRepository) {
+  constructor(private readonly memberRepository: MemberRepository) {
   }
   public async loginWithSSO(provider: string, payload: Record<string, any>) {
-    const ssoAccountInfo = await this.memberV1Repository.findAccountByOpenId(payload?.sub);
+    const ssoAccountInfo = await this.memberRepository.findAccountByOpenId(payload?.sub);
 
     if (!ssoAccountInfo) {
-      return await this.memberV1Repository.createAccount(provider, payload);
+      return await this.memberRepository.createAccount(provider, payload);
     }
 
     return ssoAccountInfo;

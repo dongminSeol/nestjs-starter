@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { V1Module } from './api/v1/v1.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ApiModule } from './api/api.module';
 import { MongooseConnectionNameCode } from './common/app-enum/mongoose/connection-name.code.enum';
 import { CommonModule } from './common/common.module';
 import { PGModule } from './modules/pg/pg.module';
@@ -12,7 +12,6 @@ import { PGPool } from "./common/app-enum/postgresql/pg-pool.code.enum";
 @Module({
   imports: [
     CommonModule,
-    ApiModule,
     PGModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
@@ -40,6 +39,7 @@ import { PGPool } from "./common/app-enum/postgresql/pg-pool.code.enum";
         maxPoolSize: configService.get<number>('mongoose.db.maxPoolSize')
       })
     }),
+    V1Module
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -4,7 +4,7 @@ import { PGModuleOptions, PGOptions } from '../interface/pg.module.options.inter
 import { PG_MODULE_OPTIONS } from '../constant/pg.constant';
 
 @Injectable()
-export class PgService {
+export class PostgreSQLService {
   private readonly pgPools: Map<string, Pool> = new Map<string, Pool>();
 
   constructor(@Inject(PG_MODULE_OPTIONS) options: PGModuleOptions) {
@@ -34,7 +34,7 @@ export class PgService {
     Logger.verbose(`Query in ${endTime - startTime}ms - Params: ${JSON.stringify(params)}`);
   }
 
-  public async executeQuery<T>(pool: string, params: QueryConfig): Promise<QueryResult<T>> {
+  private async executeQuery<T>(pool: string, params: QueryConfig): Promise<QueryResult<T>> {
 
     try {
       const startTime = Date.now();

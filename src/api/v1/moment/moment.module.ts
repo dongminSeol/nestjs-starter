@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MemberRepositoryModule } from "../../../entities/v1/member/member.repository.module";
-import { MemberController } from './member.controller';
-import { MemberService } from './member.service';
-import { AwsS3Module } from '../../../modules/aws/s3/aws.s3.module';
 import { ConfigService } from '@nestjs/config';
+import { MomentRepositoryModule } from '../../../entities/v1/moment/moment.repository.module';
+import { AwsS3Module } from '../../../modules/aws/s3/aws.s3.module';
+import { MomentController } from './moment.controller';
+import { MomentService } from './moment.service';
+
 
 @Module({
   imports: [
-    MemberRepositoryModule,
+    MomentRepositoryModule,
     AwsS3Module.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
@@ -18,9 +19,8 @@ import { ConfigService } from '@nestjs/config';
     })
   ],
   providers: [
-    MemberService
+    MomentService
   ],
-  controllers: [MemberController]
+  controllers: [MomentController]
 })
-export class MemberModule {
-}
+export class MomentModule {}

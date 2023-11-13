@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export class MemberV1ProfileRes {
+export class MemberProfileRes {
   @Expose()
   user_id: string;
 
@@ -27,7 +27,7 @@ export class MemberV1ProfileRes {
 
 }
 
-export class MemberV1CheckDuplicateIdRes {
+export class MemberCheckDuplicateIdRes {
   @Expose()
   is_duplicate: boolean;
 }

@@ -1,20 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { PgService } from '../../../modules/pg/service/pg.service';
-import { PGPool } from '../../../common/app-enum/postgresql/pg-pool.code.enum';
-import { AccountEntity } from './member.entity';
+import { PGPool } from '../../../../common/app-enum/postgresql/pg-pool.code.enum';
+import { PgBaseRepository } from '../../../../modules/pg/repository/pg.base.repository';
+import { MemberEntity, MemberProcedureOutput } from '../member.entity';
 
 
 @Injectable()
-export class MemberRepository {
-  constructor(private readonly pg: PgService) {
-  }
+export class MemberRepository extends PgBaseRepository<MemberEntity & MemberProcedureOutput>{
 
   public async findAccountById(id: number) {
     const params = {
       text: `select * from live.fn_v1_find_account($1);`,
       values: [id]
     };
-    return await this.pg.executeQueryAsSingle<AccountEntity>(PGPool.Read.code, params);
+    return await this.executeQueryAsSingle(PGPool.Read.code, params);
   }
 
   public async findAccountByOpenId(openId : string) {
@@ -22,7 +20,7 @@ export class MemberRepository {
       text: `select * from live.fn_v1_find_sso_account($1);`,
       values: [openId]
     };
-    return await this.pg.executeQueryAsSingle<AccountEntity>(PGPool.Read.code, params);
+    return await this.executeQueryAsSingle(PGPool.Read.code, params);
   }
 
   public async findAccountByUserId(userId: string) {
@@ -30,7 +28,7 @@ export class MemberRepository {
       text: `select * from live.fn_v1_find_sso_account($1);`,
       values: [userId]
     };
-    return await this.pg.executeQueryAsSingle<AccountEntity>(PGPool.Read.code, params);
+    return await this.executeQueryAsSingle(PGPool.Read.code, params);
   }
 
   public async createAccount(provider: string, payload: Record<string, any>) {
@@ -39,7 +37,7 @@ export class MemberRepository {
       values: [provider, payload?.iss, payload?.aud, payload?.sub, payload?.phone_number || '']
     };
 
-    const result = await this.pg.executeQueryAsSingle<AccountEntity & { message: string }>(PGPool.Read.code, params);
+    const result = await this.executeQueryAsSingle(PGPool.Read.code, params);
     if (!result?.id) {
       throw new Error(`message: ${result?.message}`);
     }
@@ -53,7 +51,7 @@ export class MemberRepository {
       values: [id, userName, mobileNumber ,statusMessage]
     };
 
-    const result = await this.pg.executeQueryAsSingle<AccountEntity & { message: string }>(PGPool.Write.code, params);
+    const result = await this.executeQueryAsSingle(PGPool.Write.code, params);
   }
 
   public async updateProfileImage(id: number, imagePath: string) {
@@ -62,7 +60,7 @@ export class MemberRepository {
       values: [id, imagePath]
     };
 
-    const result = await this.pg.executeQueryAsSingle<AccountEntity & { message: string }>(PGPool.Write.code, params);
+    const result = await this.executeQueryAsSingle(PGPool.Write.code, params);
   }
 
   public async deleteAccount(id: number) {
@@ -71,7 +69,7 @@ export class MemberRepository {
       values: [id]
     };
 
-    const result = await this.pg.executeQueryAsSingle<AccountEntity & { message: string }>(PGPool.Write.code, params);
+    const result = await this.executeQueryAsSingle(PGPool.Write.code, params);
 
     if (!result?.id) {
       throw new Error(`message: ${result?.message}`);

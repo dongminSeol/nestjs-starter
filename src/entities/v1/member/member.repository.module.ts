@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MemberRepository } from './member.repository';
+import { MemberRepository } from './repositories/member.repository';
 
 
 @Module({

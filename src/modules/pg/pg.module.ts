@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { PgService } from './service/pg.service';
+import { PostgreSQLService } from './service/pg.service';
 import { PGModuleAsyncOptions, PGModuleOptions } from './interface/pg.module.options.interface';
 import { PG_MODULE_OPTIONS } from './constant/pg.constant';
 
 @Module({
-  exports: [PgService],
-  providers: [PgService]
+  exports: [PostgreSQLService],
+  providers: [PostgreSQLService]
 })
 export class PGModule {
   static register(options: PGModuleOptions): DynamicModule {

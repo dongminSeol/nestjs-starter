@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Post, Req, UploadedFile } from '@nestjs/common';
 import { ACCESS_TOKEN } from '../../../common/app-auth/constant/app-auth.constant';
 import { MemberService } from './member.service';
-import { MemberV1CheckDuplicateIdRes, MemberV1ProfileRes } from './dto/member.res.dto';
+import { MemberCheckDuplicateIdRes, MemberProfileRes } from './dto/member.res.dto';
 import { AppRequest } from '../../../common/app-request/interface/app-request.interface';
-import { MemberV1CheckDuplicateIdReq, MemberV1UpdateProfileReq } from './dto/member.req.dto';
+import { MemberCheckDuplicateIdReq, MemberUpdateProfileReq } from './dto/member.req.dto';
 import { AppFileRequiredPipe } from '../../../common/app-file/pipe/app-file.required.pipe';
 import { AppFileTypePipe } from '../../../common/app-file/pipe/app-file.type.pipe';
 import { AppFileType } from '../../../common/app-file/type/app-file.type';
@@ -13,8 +13,8 @@ import { AppResponseSerialize } from '../../../common/app-response/decorator/app
 import { UploadFileSingle } from '../../../common/app-file/decorator/app-file.decorator';
 import { AwsS3Service } from '../../../modules/aws/s3/service/aws.s3.service';
 
-@Controller({ path: 'pg/member', version: '1' })
 @TokenAuth(ACCESS_TOKEN)
+@Controller({ path: '/member', version: '1' })
 export class MemberController {
   private readonly S3_BUCKET = 'dev-first-repo';
   private readonly S3_BUCKET_PATH = 'developer';
@@ -25,13 +25,13 @@ export class MemberController {
 
 
   @Get('/profile')
-  @AppResponseSerialize(MemberV1ProfileRes)
+  @AppResponseSerialize(MemberProfileRes)
   public async profile(@Req() { _id }: AppRequest) {
     return await this.memberService.findById(_id);
   }
 
   @Post('/profile')
-  public async updateProfile(@Req() { _id }: AppRequest, @Body() { user_name, mobile_number, status_message }: MemberV1UpdateProfileReq) {
+  public async updateProfile(@Req() { _id }: AppRequest, @Body() { user_name, mobile_number, status_message }: MemberUpdateProfileReq) {
     return await this.memberService.updateProfile(_id, user_name, mobile_number, status_message);
   }
 
@@ -43,8 +43,8 @@ export class MemberController {
   }
 
   @Post('/check/duplicate-id')
-  @AppResponseSerialize(MemberV1CheckDuplicateIdRes)
-  public async checkDuplicateId(@Body() { user_id }: MemberV1CheckDuplicateIdReq) {
+  @AppResponseSerialize(MemberCheckDuplicateIdRes)
+  public async checkDuplicateId(@Body() { user_id }: MemberCheckDuplicateIdReq) {
     return await this.memberService.checkDuplicateId(user_id);
   }
 

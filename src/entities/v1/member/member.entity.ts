@@ -1,4 +1,4 @@
-export class AccountEntity {
+export class MemberEntity {
   id: number;
   user_id: string;
   user_name: string;
@@ -13,4 +13,9 @@ export class AccountEntity {
   is_completed: boolean;
   updated_at: string;
   created_at: string;
+}
+
+export class MemberProcedureOutput {
+  message: string;
+  row_count: number;
 }
