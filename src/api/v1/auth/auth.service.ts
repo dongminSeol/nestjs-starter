@@ -1,18 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { MemberRepository } from "../../../entities/v1/member/member.repository";
+import { AppAuthConfigService } from '../../../common/app-auth/services/app-auth.config.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly memberV1Repository: MemberRepository) {
+  constructor(private readonly appAuthConfigService: AppAuthConfigService) {}
+
+  generateJwtTokens(id: number, roleCode: string) {
+    const accessToken = this.appAuthConfigService.generateAccessToken({ id, roleCode });
+    const refreshToken = this.appAuthConfigService.generateRefreshToken({ id, roleCode });
+
+    return { accessToken, refreshToken };
   }
-  public async loginWithSSO(provider: string, payload: Record<string, any>) {
-    const ssoAccountInfo = await this.memberV1Repository.findAccountByOpenId(payload?.sub);
-
-    if (!ssoAccountInfo) {
-      return await this.memberV1Repository.createAccount(provider, payload);
-    }
-
-    return ssoAccountInfo;
-  }
-
 }

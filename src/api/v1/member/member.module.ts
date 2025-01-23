@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MemberRepositoryModule } from "../../../entities/v1/member/member.repository.module";
-import { MemberController } from './member.controller';
+import { MemberCustomerRepositoryModule } from '../../../entities/v1/member/customer/member-customer.repository.module';
+import { MemberCustomerController } from './customer/member-customer.controller';
 import { MemberService } from './member.service';
 import { AwsS3Module } from '../../../modules/aws/s3/aws.s3.module';
 import { ConfigService } from '@nestjs/config';
+import { MemberAdminController } from './admin/member-admin.controller';
 
 @Module({
   imports: [
-    MemberRepositoryModule,
+    MemberCustomerRepositoryModule,
     AwsS3Module.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
@@ -18,7 +19,6 @@ import { ConfigService } from '@nestjs/config';
     })
   ],
   providers: [MemberService],
-  controllers: [MemberController]
+  controllers: [MemberCustomerController, MemberAdminController]
 })
-export class MemberModule {
-}
+export class MemberModule {}

@@ -1,0 +1,10 @@
+export const VERIFY_SSO_TOKEN_META_KEY = 'SSO_TOKEN_META_KEY';
+
+export const KAKAO_LOGIN = 'KAKAO_LOGIN';
+export const APPLE_LOGIN = 'APPLE_LOGIN';
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
+
+export const VERIFY_TOKEN_META_KEY = 'VERIFY_TOKEN_META_KEY';
+
+export const ACCESS_TOKEN = 'ACCESS_TOKEN';
+export const REFRESH_TOKEN = 'REFRESH_TOKEN';

@@ -1,33 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { MemberRepository } from "../../../entities/v1/member/member.repository";
+import { MemberCustomerRepository } from '../../../entities/v1/member/customer/member-customer.repository';
+import { AwsS3Service } from '../../../modules/aws/s3/service/aws.s3.service';
 
 @Injectable()
 export class MemberService {
-  constructor(private readonly memberV1Repository: MemberRepository) {}
+  private readonly S3_BUCKET = 'dev-first-repo';
+  private readonly S3_BUCKET_PATH = 'developer';
+  private readonly S3_BUCKET_URL = 'https://dev-first-repo.s3.ap-northeast-2.amazonaws.com';
+  constructor(private readonly customerRepository: MemberCustomerRepository, private readonly s3Service: AwsS3Service) {}
 
-  public async findById(id: number) {
-    return await this.memberV1Repository.findAccountById(id);
-  }
+  async findById(id: number) {}
 
-  public async checkDuplicateId(userId: string) {
-    const result = await this.memberV1Repository.findAccountByUserId(userId);
+  async updateProfile(id: number, nickName: string, phone: string, message: string) {}
 
-    return {
-      isDuplicate: !!result
-    }
-  }
-
-  public async updateProfile(id: number, userName: string, mobileNumber: string, statusMessage: string) {
-    return await this.memberV1Repository.updateProfile(id, userName, mobileNumber, statusMessage);
-  }
-
-  public async updateProfileImage(id: number, imagePath: string) {
-    return await this.memberV1Repository.updateProfileImage(id, imagePath);
-  }
-
-  public async deleteAccount(id: number) {
-    return await this.memberV1Repository.deleteAccount(id);
-  }
-
-
+  async updateProfileImage(id: number, imagePath: string) {}
 }

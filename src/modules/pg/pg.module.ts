@@ -1,11 +1,11 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { PgService } from './service/pg.service';
-import { PGModuleAsyncOptions, PGModuleOptions } from './interface/pg.module.options.interface';
-import { PG_MODULE_OPTIONS } from './constant/pg.constant';
+import { PGService } from './services/pg.service';
+import { PGModuleAsyncOptions, PGModuleOptions } from './interfaces/pg.interface';
+import { PG_MODULE_OPTIONS } from './constants/pg.constant';
 
 @Module({
-  exports: [PgService],
-  providers: [PgService]
+  exports: [PGService],
+  providers: [PGService]
 })
 export class PGModule {
   static register(options: PGModuleOptions): DynamicModule {
@@ -26,11 +26,13 @@ export class PGModule {
       global: true,
       module: PGModule,
       imports: options.imports || [],
-      providers: [{
-        provide: PG_MODULE_OPTIONS,
-        useFactory: options.useFactory,
-        inject: options.inject || []
-      }]
+      providers: [
+        {
+          provide: PG_MODULE_OPTIONS,
+          useFactory: options.useFactory,
+          inject: options.inject || []
+        }
+      ]
     };
   }
 }

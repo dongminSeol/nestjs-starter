@@ -19,10 +19,10 @@
       email: string;
     }
     
-    // member.controller.ts
+    // member-admin.controller.ts
     @Controller({ path: 'member', version: '1' })
     @TokenAuth(ACCESS_TOKEN)
-    export class MemberController {
+    export class MemberAdminController {
       constructor(private readonly memberService: MemberService) {}
     
       @Get('/profile')

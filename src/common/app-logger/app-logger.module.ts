@@ -1,18 +1,16 @@
 import { Module } from '@nestjs/common';
-import { AppLoggerService } from './service/app-logger.service';
-import { AppLoggerInterceptor } from './interceptor/app-logger.interceptor';
+import { AppLoggerService } from './services/app-logger.service';
+import { AppLoggerInterceptor } from './interceptors/app-logger.interceptor';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppLoggerEntity, AppLoggerSchema } from './entity/app-logger.entity';
-import { AppLoggerErrorFilter } from './filter/app-logger-error.filter';
+import { AppLoggerEntity, AppLoggerSchema } from './entities/app-logger.entity';
+import { AppLoggerErrorFilter } from './filters/app-logger-error.filter';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb://test:test_1024@localhost:27017/',
-      {
-        maxPoolSize: 50
-      }),
+    MongooseModule.forRoot('mongodb://test:test_1024@localhost:27017/', {
+      maxPoolSize: 50
+    }),
     MongooseModule.forFeature([{ name: AppLoggerEntity.name, schema: AppLoggerSchema }])
   ],
   providers: [
@@ -34,5 +32,4 @@ import { AppLoggerErrorFilter } from './filter/app-logger-error.filter';
   ],
   exports: [AppLoggerService]
 })
-export class AppLoggerModule {
-}
+export class AppLoggerModule {}

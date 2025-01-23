@@ -1,7 +1,7 @@
 import { HttpStatus, Module, ValidationPipe, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { AppRequestTimeoutInterceptor } from './interceptor/app-request-timeout.interceptor';
-import { AppRequestMiddleware } from './middleware/app-request.middleware';
+import { AppRequestTimeoutInterceptor } from './interceptors/app-request-timeout.interceptor';
+import { AppRequestMiddleware } from './middlewares/app-request.middleware';
 
 @Module({
   providers: [

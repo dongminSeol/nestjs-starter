@@ -1,11 +1,10 @@
 import { Global, Module } from '@nestjs/common';
-import { AppAuthService } from './service/app-auth.service';
-import { AppCacheModule } from '../app-cache/app-cache.module';
+import { AppAuthConfigService } from './services/app-auth.config.service';
 
 @Global()
 @Module({
-  imports: [AppCacheModule],
-  providers: [AppAuthService],
-  exports: [AppAuthService]
+  imports: [],
+  providers: [AppAuthConfigService],
+  exports: [AppAuthConfigService]
 })
 export class AppAuthModule {}
