@@ -10,10 +10,6 @@ import helmet from 'helmet';
 export class AppRequestMiddleware implements NestMiddleware {
   use(req: AppRequest, res: Response, next: NextFunction): void {
     // helmet({ contentSecurityPolicy: false })(req, res, next);
-    const language_tag = req.header('language_tag') || '';
-
-    req._language_tag = language_tag;
-
     res.removeHeader('X-Powered-By');
     next();
   }

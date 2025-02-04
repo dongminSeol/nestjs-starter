@@ -5,4 +5,5 @@ export class SingInResponseDto {
   imageUrl: string;
   birth: string;
   createdAt: Date;
+  constructor() {}
 }
